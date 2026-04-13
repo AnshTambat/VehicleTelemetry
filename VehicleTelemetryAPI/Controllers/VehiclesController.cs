@@ -21,12 +21,12 @@ namespace VehicleTelemetryAPI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll() =>
-            Ok(await _db.Vehicles.ToListAsync());
+            Ok(await _db.Vehicles.AsNoTracking().ToListAsync());
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var v = await _db.Vehicles.FindAsync(id);
+            var v = await _db.Vehicles.AsNoTracking().FirstOrDefaultAsync(x => x.VehicleId == id);
             return v is null ? NotFound() : Ok(v);
         }
 
