@@ -20,7 +20,7 @@ namespace VehicleTelemetryAPI.Controllers
             [FromQuery] DateTime? to)
         {
 
-            var q = _db.VehicleReadings.Where(r => r.VehicleId == vehicleId);
+            var q = _db.VehicleReadings.AsNoTracking().Where(r => r.VehicleId == vehicleId);
             if (from.HasValue) q = q.Where(r => r.Timestamp >= from.Value);
             if (to.HasValue) q = q.Where(r => r.Timestamp <= to.Value);
 
@@ -30,7 +30,7 @@ namespace VehicleTelemetryAPI.Controllers
         [HttpGet("latest")]
         public async Task<IActionResult> GetLatest(int vehicleId)
         {
-            var latest = await _db.VehicleReadings
+            var latest = await _db.VehicleReadings.AsNoTracking()
                 .Where(r => r.VehicleId == vehicleId)
                 .OrderByDescending(r => r.Timestamp)
                 .FirstOrDefaultAsync();
