@@ -38,6 +38,19 @@ namespace VehicleTelemetryAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = v.VehicleId }, v);
         }
 
+        public record VehicleUpdateDto(string Name, string LicensePlate);
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] VehicleUpdateDto body)
+        {
+            var v = await _db.Vehicles.FindAsync(id);
+            if (v is null) return NotFound();
+            v.Name = body.Name;
+            v.LicensePlate = body.LicensePlate;
+            await _db.SaveChangesAsync();
+            return Ok(v);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
