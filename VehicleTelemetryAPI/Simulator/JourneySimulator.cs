@@ -1,4 +1,4 @@
-﻿using VehicleTelemetryAPI.Data;
+﻿ using VehicleTelemetryAPI.Data;
 using VehicleTelemetryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 

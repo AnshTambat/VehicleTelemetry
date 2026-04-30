@@ -12,6 +12,11 @@ namespace VehicleTelemetryAPI.Models.DTOs
 
         [Required, MinLength(6)]
         public string Password { get; set; } = string.Empty;
+
+        [MaxLength(20)]
+        public string Role { get; set; } = "Viewer";
+
+        public string RoleCode { get; set; } = string.Empty;
     }
 
     public class LoginRequest
@@ -29,5 +34,6 @@ namespace VehicleTelemetryAPI.Models.DTOs
         public string Username { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public DateTime ExpiresAt { get; set; }
+        public string Role { get; set; } = string.Empty;
     }
 }
