@@ -33,9 +33,9 @@ namespace VehicleTelemetryAPI.Controllers
             return v is null ? NotFound() : Ok(v);
         }
 
-        // Admin and Operator can create vehicles
+        // Admin only can create vehicles
         [HttpPost]
-        [Authorize(Roles = "Admin,Operator")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Vehicle v)
         {
             v.CreatedAt = DateTime.UtcNow;
@@ -46,9 +46,9 @@ namespace VehicleTelemetryAPI.Controllers
 
         public record VehicleUpdateDto(string Name, string LicensePlate);
 
-        // Admin and Operator can update vehicles
+        // Admin only can update vehicles
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Operator")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromBody] VehicleUpdateDto body)
         {
             var v = await _db.Vehicles.FindAsync(id);

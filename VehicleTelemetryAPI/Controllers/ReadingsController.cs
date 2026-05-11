@@ -38,9 +38,9 @@ namespace VehicleTelemetryAPI.Controllers
             return latest is null ? NotFound() : Ok(latest);
         }
 
-        // Admin and Operator can add readings
+        // Admin only can add readings
         [HttpPost]
-        [Authorize(Roles = "Admin,Operator")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddReading(int vehicleId, VehicleReading reading)
         {
             reading.VehicleId = vehicleId;

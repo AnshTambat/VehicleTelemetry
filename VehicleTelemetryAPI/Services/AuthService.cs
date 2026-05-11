@@ -30,11 +30,8 @@ namespace VehicleTelemetryAPI.Services
             if (usernameExists)
                 return (false, "Username is already taken.");
 
-            // Read secret codes from appsettings.json
-            var operatorCode = _config["RoleCodes:Operator"];
             var adminCode = _config["RoleCodes:Admin"];
 
-            // Validate role and role code
             string role;
             if (req.Role == "Admin")
             {
@@ -42,15 +39,8 @@ namespace VehicleTelemetryAPI.Services
                     return (false, "Invalid admin code. You are not authorized to register as Admin.");
                 role = "Admin";
             }
-            else if (req.Role == "Operator")
-            {
-                if (string.IsNullOrEmpty(req.RoleCode) || req.RoleCode != operatorCode)
-                    return (false, "Invalid operator code. You are not authorized to register as Operator.");
-                role = "Operator";
-            }
             else
             {
-                // Default to Viewer for anything else
                 role = "Viewer";
             }
 

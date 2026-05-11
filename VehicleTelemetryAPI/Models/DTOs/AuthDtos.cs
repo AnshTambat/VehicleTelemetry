@@ -7,10 +7,14 @@ namespace VehicleTelemetryAPI.Models.DTOs
         [Required, MaxLength(100)]
         public string Username { get; set; } = string.Empty;
 
-        [Required, EmailAddress, MaxLength(200)]
+        [Required, MaxLength(200)]
+        [RegularExpression(@"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$",
+            ErrorMessage = "Email must be a valid address (e.g. user@example.com).")]
         public string Email { get; set; } = string.Empty;
 
-        [Required, MinLength(6)]
+        [Required]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$",
+            ErrorMessage = "Password must be at least 8 characters and contain at least one uppercase letter, one number, and one special character.")]
         public string Password { get; set; } = string.Empty;
 
         [MaxLength(20)]
@@ -21,7 +25,9 @@ namespace VehicleTelemetryAPI.Models.DTOs
 
     public class LoginRequest
     {
-        [Required, EmailAddress]
+        [Required]
+        [RegularExpression(@"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$",
+            ErrorMessage = "Email must be a valid address (e.g. user@example.com).")]
         public string Email { get; set; } = string.Empty;
 
         [Required]
