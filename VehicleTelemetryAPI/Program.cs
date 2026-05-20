@@ -12,14 +12,14 @@ using VehicleTelemetryAPI.Simulator;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// EF Core + VehicleService
+//EF Core + VehicleService
 builder.Services.AddDbContext<TelemetryDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<VehicleService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddHostedService<SimulatorBackgroundService>();
 
-// JWT Authentication
+//JWT Authentication
 var jwtSection = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// CORS
+//CORS
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(p =>
     p.WithOrigins("http://localhost:5173", "https://localhost:5173").AllowAnyHeader().AllowAnyMethod()));
 
@@ -53,8 +53,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Ensure database is migrated so tables exist. Do not seed vehicles here —
-// the simulator will create fresh vehicles at runtime when needed.
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<TelemetryDbContext>();
@@ -62,7 +60,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-app.UseCors();          // must come before UseAuthorization and MapControllers
+app.UseCors();         
 app.UseAuthentication();
 app.UseAuthorization();
 

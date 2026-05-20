@@ -39,12 +39,11 @@ namespace VehicleTelemetryAPI.Services
             };
         }
 
-        // Top 5 vehicles by peak speed today
+        //Top 5 vehicles by peak speed today
         public async Task<List<object>> GetTop5ByPeakSpeedToday()
         {
             var today = DateTime.UtcNow.Date;
 
-            // Group by VehicleId on the server, then join to Vehicles to get the name.
             var top = await _db.VehicleReadings
                 .Where(r => r.Timestamp >= today)
                 .GroupBy(r => r.VehicleId)
@@ -61,14 +60,12 @@ namespace VehicleTelemetryAPI.Services
                 .Take(5)
                 .ToListAsync();
 
-            // Cast to objects after materializing the query to avoid runtime translation issues.
             return top.Cast<object>().ToList();
         }
 
         // Average engine temp per hour for a vehicle
         public async Task<List<object>> GetAvgEngineTempPerHour(int vehicleId)
         {
-            // Compute the raw averages on the server, materialize, then round on the client.
             var raw = await _db.VehicleReadings
                 .Where(r => r.VehicleId == vehicleId)
                 .GroupBy(r => r.Timestamp.Hour)

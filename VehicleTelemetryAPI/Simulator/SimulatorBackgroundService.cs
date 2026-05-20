@@ -1,5 +1,4 @@
-﻿// New file: Simulator/SimulatorBackgroundService.cs
-using VehicleTelemetryAPI.Data;
+﻿using VehicleTelemetryAPI.Data;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace VehicleTelemetryAPI.Simulator
@@ -20,7 +19,7 @@ namespace VehicleTelemetryAPI.Simulator
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<TelemetryDbContext>();
                 await JourneySimulator.ReplayJourney(db);
-                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // repeat every 30s
+                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); 
             }
         }
     }

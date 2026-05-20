@@ -14,7 +14,7 @@ namespace VehicleTelemetryAPI.Controllers
         private readonly TelemetryDbContext _db;
         public ReadingsController(TelemetryDbContext db) => _db = db;
 
-        // ALL roles can view readings
+        //ALL roles can view readings
         [HttpGet]
         public async Task<IActionResult> GetReadings(
             int vehicleId,
@@ -27,7 +27,7 @@ namespace VehicleTelemetryAPI.Controllers
             return Ok(await q.OrderBy(r => r.Timestamp).ToListAsync());
         }
 
-        // ALL roles can view latest reading
+        //ALL roles can view latest reading
         [HttpGet("latest")]
         public async Task<IActionResult> GetLatest(int vehicleId)
         {
@@ -38,7 +38,7 @@ namespace VehicleTelemetryAPI.Controllers
             return latest is null ? NotFound() : Ok(latest);
         }
 
-        // Admin only can add readings
+        //Admin only can add readings
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddReading(int vehicleId, VehicleReading reading)
@@ -50,7 +50,7 @@ namespace VehicleTelemetryAPI.Controllers
             return Ok(reading);
         }
 
-        // Admin only can delete readings
+        //Admin only can delete readings
         [HttpDelete("{readingId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteReading(int vehicleId, int readingId)
@@ -63,7 +63,7 @@ namespace VehicleTelemetryAPI.Controllers
             return NoContent();
         }
 
-        // ALL roles can view avg engine temp per hour
+        //ALL roles can view avg engine temp per hour
         [HttpGet("avg-engine-temp-per-hour")]
         public async Task<IActionResult> AvgTempPerHour(int vehicleId) =>
             Ok(await GetAvgTempData(vehicleId));
